@@ -21,9 +21,10 @@ router.get('/new', (req, res) => {
     res.render('new-book', { book: {} });
 });
 
-router.post('/books/new', asyncHandler(async (req, res) => {
-    //const book = await Book.create(req.body);
-    console.log(req.body);
+router.post('/', asyncHandler(async(req, res) => {
+    let book;
+    book = await Book.create(req.body);
+    //console.log(req.body);
     res.redirect('/');
 }));
 
