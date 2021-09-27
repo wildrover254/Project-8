@@ -1,7 +1,14 @@
 extends layout 
 
 block content 
-    h2= "Update Book"
+    h2= title
 
-    form(action="/books", method="post")
+    include error
+
+    form(action="/books/" + book.id + "/edit", method="post")
         include form
+    
+    form(action="/books/" + book.id + "/delete", method="post")
+        input(type="submit", value="Delete Book")
+        
+    a.button(href='/books') Cancel

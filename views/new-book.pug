@@ -1,9 +1,10 @@
 extends layout 
 
 block content 
-        h1="New Book"
+        h2= title
+
+        include error
 
         form(action="/books", method="post")
             include form
-            
         a.button(href='/books') Cancel

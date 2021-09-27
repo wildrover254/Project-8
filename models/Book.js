@@ -8,14 +8,18 @@ module.exports = (sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
+          notEmpty: {
+            msg: "Please provide a title."
+          }
         }
       },
       author: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
+          notEmpty: {
+            msg: "Please provide an author."
+          }
         }
       },
       genre: {
