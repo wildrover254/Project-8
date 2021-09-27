@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//Requires the route files
 const routes = require('./routes/index');
 const books = require('./routes/books')
 
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
   res.render('page-not-found', { err });
 });
 
+//Global error handler
 app.use((err, req, res, next) => {
   if (err.status === 404) {
       console.log(`There has been a ${err.status} error`)
@@ -44,6 +46,5 @@ app.use((err, req, res, next) => {
       res.status(err.status || 500).render('page-not-found', { err });
   }
 });
-
 
 module.exports = app;

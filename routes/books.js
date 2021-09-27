@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Book = require('../models').Book;
 
+//Wrapper function for async operations
 function asyncHandler(cb){
     return async(req, res, next) => {
         try{
@@ -12,6 +13,11 @@ function asyncHandler(cb){
     }
 }
 
+//Routes 
+/*
+    In the post routes, if a SequelizeValidationError is thrown
+    then the errors are rendered onto the page in a user-friendly manner
+*/
 router.get('/', asyncHandler(async(req, res, next) => {
     const books = await Book.findAll();
     res.render('index', {books}) ;
