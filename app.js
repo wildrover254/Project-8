@@ -26,23 +26,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/books', books);
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
+//Catch 404 and forward to error handler
+app.use(function(req, res, next) {
   const err = new Error();
   err.status = 404;
-  err.message = 'No page here buddy.';
+  err.message = 'Looks like this does not exist.';
   console.log(`There has been a ${err.status} error`);
-  res.render('page-not-found', { err });
+  next(err);
 });
 
 //Global error handler
-app.use((err, req, res, next) => {
+app.use(function(err, req, res, next) {
   if (err.status === 404) {
-      console.log(`There has been a ${err.status} error`)
-      res.status(404).render('page-not-found', { err });
+      console.log(`There has been a ${err.status} error`);
+      res.render('page-not-found', { err });
   } else {
       err.message = err.message || `There has been a server error.`;
-      console.log(`There has been a ${err.status} error`)
+      console.log(`There has been a ${err.status} error`);
       res.status(err.status || 500).render('page-not-found', { err });
   }
 });

@@ -14,19 +14,19 @@ function asyncHandler(cb){
 }
 
 //Routes 
-/*
-    In the post routes, if a SequelizeValidationError is thrown
-    then the errors are rendered onto the page in a user-friendly manner
-*/
+
+//Renders the root route and loads the info from the book db
 router.get('/', asyncHandler(async(req, res, next) => {
     const books = await Book.findAll();
     res.render('index', {books}) ;
 }));
 
+//Loads a new book form
 router.get('/new', (req, res) => {
     res.render('new-book', { book: {}, title: "New Book" });
 });
 
+//Adds the new book to the db and tells the user if they have missed a required field
 router.post('/', asyncHandler(async(req, res) => {
     let book;
     try {
@@ -42,15 +42,20 @@ router.post('/', asyncHandler(async(req, res) => {
     }
 }));
 
-router.get('/:id', asyncHandler(async(req, res) => {
+//Loads the edit form for the selected book
+router.get('/:id', asyncHandler(async(req, res, next) => {
     const book = await Book.findByPk(req.params.id);
     if(book) {
         res.render('update-book', { book, title: "Update Book" });
     } else {
-        res.sendStatus(404);
+        const err = new Error();
+        err.status = 404;
+        err.message = 'That does not exist.';
+        next(err);
     }
 }));
 
+//Posts any edits made to the db and makes sure both required fields are filled out
 router.post('/:id/edit', asyncHandler(async(req, res) => {
     let book;
     try {
@@ -72,6 +77,7 @@ router.post('/:id/edit', asyncHandler(async(req, res) => {
     }
 }));
 
+//Deletes the selected book from the db
 router.post('/:id/delete', asyncHandler(async(req, res) => {
     let book;
     book = await Book.findByPk(req.params.id);
