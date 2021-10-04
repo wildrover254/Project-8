@@ -3,12 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const models = require('./models');
 
 //Requires the route files
 const routes = require('./routes/index');
 const books = require('./routes/books')
 
 const app = express();
+
+(async () => {
+  await models.sequelize.sync();
+  try {
+    await models.sequelize.authenticate();
+    console.log('Connection to the database successful!');
+  } catch (error) {
+    console.error('Error connecting to the database: ', error);
+  }
+})();
 
 //Serve static files
 app.use('/static', express.static('public'));

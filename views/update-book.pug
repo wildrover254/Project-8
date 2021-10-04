@@ -6,7 +6,21 @@ block content
     include error
 
     form(action="/books/" + book.id + "/edit", method="post")
-        include form
+        p
+            label(for='title') Title
+            input#title(name='title_field', type='text', value=book.title)            
+        p
+            label(for='author') Author
+            input#author(name='author_field', type='text', value=book.author)            
+        p
+            label(for='genre') Genre
+            input#genre(name='genre_field', type='text', value=book.genre)            
+        p
+            label(for='year') Year
+            input#year(name='year_field', type='text',  value=book.year)
+        input(type='submit')
+        
+        a.button(href='/books') Cancel
     
     form(action="/books/" + book.id + "/delete", method="post")
         input(type="submit", value="Delete Book")
